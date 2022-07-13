@@ -1,4 +1,5 @@
-import 'package:barktest/bark_test.dart';
+import 'package:barktest/fade_on_scroll.dart';
+import 'package:barktest/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -14,8 +15,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'bark',
-      theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.white)),
-      home: BarkTest(),
+      theme: ThemeData(
+          appBarTheme: const AppBarTheme(backgroundColor: Colors.white)),
+      home: FadeOnScroll(),
     );
   }
 }

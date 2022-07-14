@@ -1,18 +1,13 @@
+import 'package:barktest/controller/appbar_controller.dart';
 import 'package:barktest/item_list.dart';
 import 'package:barktest/sliding_cards_view.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 
-class FadeOnScroll extends StatefulWidget {
-  const FadeOnScroll({Key? key}) : super(key: key);
-
-  @override
-  State<FadeOnScroll> createState() => _FadeOnScrollState();
-}
-
-class _FadeOnScrollState extends State<FadeOnScroll>
-    with TickerProviderStateMixin {
+class FadeOnScroll extends GetView<AppbarController> {
+  final controller = Get.put(AppbarController());
   late AnimationController animationController;
   PageController pageController = PageController(initialPage: 0);
   int currentPage = 0;
@@ -21,55 +16,16 @@ class _FadeOnScrollState extends State<FadeOnScroll>
   bool _changedColor = false;
 
   @override
-  void initState() {
-    super.initState();
-    animationController = AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 300),
-        reverseDuration: Duration(milliseconds: 300));
-    scroll.addListener(() {
-      print(scroll.position.pixels);
-      // print(scroll.offset);
-      // final reachTop = (scroll.offset <= scroll.position.minScrollExtent &&
-      //     !scroll.position.outOfRange);
-      // print(reachTop);
-      final changedColor = scroll.position.pixels > 366 ? true : false;
-
-      if (scroll.position.pixels > 366) {
-        setState(() {
-          _changedColor = changedColor;
-        });
-      }
-    });
-    // 자동스크롤
-    // Timer.periodic(Duration(seconds: 5), (Timer timer) {
-    //   if (currentPage < 2) {
-    //     currentPage++;
-    //   } else {
-    //     currentPage = 0;
-    //   }
-    //   pageController.animateToPage(currentPage,
-    //       duration: Duration(microseconds: 50), curve: Curves.ease);
-    // });
-    // pageController = PageController(viewportFraction: 1);
-    // pageController.addListener(() {
-    //   setState(() => pageOffset = pageController.page!);
-    // });
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    scroll.addListener(() {
+      //final scrollPositionPixels = scroll.position.pixels;
+      controller.getColor(scroll.position.pixels);
+    });
     return Scaffold(
       body: CustomScrollView(
         controller: scroll,
         slivers: [
-          SliverAppBar(
+          Obx(() => SliverAppBar(
               titleSpacing: 0,
               automaticallyImplyLeading: false,
               actions: [
@@ -78,7 +34,9 @@ class _FadeOnScrollState extends State<FadeOnScroll>
                   child: Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: Icon(Icons.search,
-                        color: _changedColor ? Colors.black : Colors.white),
+                        color: controller.changedColor
+                            ? Colors.black
+                            : Colors.white),
                   ),
                 ),
                 GestureDetector(
@@ -86,7 +44,9 @@ class _FadeOnScrollState extends State<FadeOnScroll>
                   child: Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: Icon(Icons.notifications_active_outlined,
-                        color: _changedColor ? Colors.black : Colors.white),
+                        color: controller.changedColor
+                            ? Colors.black
+                            : Colors.white),
                   ),
                 ),
                 GestureDetector(
@@ -95,7 +55,8 @@ class _FadeOnScrollState extends State<FadeOnScroll>
                     padding: const EdgeInsets.only(right: 15),
                     child: Icon(
                       Icons.shopping_bag_outlined,
-                      color: _changedColor ? Colors.black : Colors.white,
+                      color:
+                          controller.changedColor ? Colors.black : Colors.white,
                     ),
                   ),
                 ),
@@ -132,7 +93,7 @@ class _FadeOnScrollState extends State<FadeOnScroll>
               //             offset: pageOffset,
               //           );
               //         })),
-              ),
+              )),
           SliverFillRemaining(
             fillOverscroll: true,
             child: SafeArea(

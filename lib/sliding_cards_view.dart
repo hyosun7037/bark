@@ -32,18 +32,18 @@ class _SlidingCardsViewState extends State<SlidingCardsView> {
       child: PageView(
         controller: pageController,
         children: <Widget>[
-          SlidingCard(
-            name: '테스트',
-            date: '4.20-30',
-            assetName: 'meta.jpg',
-            offset: pageOffset,
-          ),
-          SlidingCard(
-            name: '테스트',
-            date: '4.28-31',
-            assetName: 'meta.jpg',
-            offset: pageOffset - 1,
-          ),
+          // SlidingCard(
+          //   name: '테스트',
+          //   date: '4.20-30',
+          //   assetName: 'meta.jpg',
+          //   offset: pageOffset,
+          // ),
+          // SlidingCard(
+          //   name: '테스트',
+          //   date: '4.28-31',
+          //   assetName: 'meta.jpg',
+          //   offset: pageOffset - 1,
+          // ),
         ],
       ),
     );
@@ -53,15 +53,17 @@ class _SlidingCardsViewState extends State<SlidingCardsView> {
 class SlidingCard extends StatelessWidget {
   final String name;
   final String date;
-  final String assetName;
+  //final String assetName;
   final double offset;
+  final ImageProvider image;
 
   const SlidingCard({
     Key? key,
     required this.name,
     required this.date,
-    required this.assetName,
+    //required this.assetName,
     required this.offset,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -73,7 +75,9 @@ class SlidingCard extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/$assetName'), fit: BoxFit.cover)),
+                //image: AssetImage('assets/$assetName'), fit: BoxFit.cover)
+                image: image,
+                fit: BoxFit.cover)),
         child: Column(
           children: <Widget>[
             Expanded(

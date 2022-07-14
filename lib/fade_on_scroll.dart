@@ -13,19 +13,34 @@ class FadeOnScroll extends GetView<AppbarController> {
   int currentPage = 0;
   double pageOffset = 0;
   var scroll = ScrollController();
-  bool _changedColor = false;
+  List assetImageList = [];
 
   @override
   Widget build(BuildContext context) {
     scroll.addListener(() {
-      //final scrollPositionPixels = scroll.position.pixels;
       controller.getColor(scroll.position.pixels);
+      precacheImage(Image.asset('assets/meta.jpg').image, context);
+      precacheImage(Image.asset('assets/test01.jpg').image, context);
+      precacheImage(Image.asset('assets/test02.jpg').image, context);
     });
+    // 테스트
+    // assetImageList = [
+    //   Image.asset('assets/meta.jpg').image,
+    //   Image.asset('assets/test01.jpg').image,
+    //   Image.asset('assets/test02.jpg').image
+    // ];
+    assetImageList = [
+      'assets/meta.jpg',
+      'assets/test01.jpg',
+      'assets/test02.jpg'
+    ];
     return Scaffold(
       body: CustomScrollView(
         controller: scroll,
         slivers: [
           Obx(() => SliverAppBar(
+              toolbarHeight: 50,
+              collapsedHeight: 60,
               titleSpacing: 0,
               automaticallyImplyLeading: false,
               actions: [
@@ -61,21 +76,29 @@ class FadeOnScroll extends GetView<AppbarController> {
                   ),
                 ),
               ],
-              expandedHeight: 455,
+              expandedHeight: 450,
               floating: false,
               pinned: false,
               flexibleSpace: FlexibleSpaceBar(
                 background: Swiper(
-                  autoplayDisableOnInteraction: false,
                   autoplay: true,
+                  autoplayDisableOnInteraction: false,
+                  axisDirection: AxisDirection.right,
+                  itemWidth: MediaQuery.of(context).size.width,
+                  layout: SwiperLayout.STACK,
                   itemCount: demo.length,
-                  itemBuilder: (context, index) {
-                    return SlidingCard(
-                      name: '브랜드 즐겨찾기$index',
-                      date: '4.20-30',
-                      assetName: demo[0],
-                      offset: pageOffset,
+                  itemBuilder: (BuildContext context, int index) {
+                    final image = assetImageList[index];
+                    return Image.asset(
+                      image,
+                      fit: BoxFit.cover,
                     );
+                    // return SlidingCard(
+                    //   name: '',
+                    //   date: '',
+                    //   image: assetImageList[index],
+                    //   offset: pageOffset,
+                    // );
                   },
                 ),
               )

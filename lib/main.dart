@@ -1,4 +1,5 @@
 import 'package:barktest/fade_on_scroll.dart';
+import 'package:barktest/fade_through_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'bark',
       theme: ThemeData(
           appBarTheme: const AppBarTheme(backgroundColor: Colors.white)),
-      home: FadeOnScroll(),
+      home: FadeThroughPage(),
     );
   }
 }

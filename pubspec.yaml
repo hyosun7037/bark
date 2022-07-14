@@ -36,9 +36,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   carousel_slider: ^4.1.1
-  # transformer_page_view: 
+  flutter_swiper_plus: ^2.0.4
+  animations:
+  card_swiper: ^2.0.4
+  appbar_animated: ^0.0.3
 
 dev_dependencies:
+
   flutter_test:
     sdk: flutter
 

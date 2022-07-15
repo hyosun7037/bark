@@ -1,7 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:barktest/fade_on_scroll.dart';
+import 'package:barktest/like_page.dart';
 import 'package:barktest/main.dart';
-import 'package:barktest/second_page.dart';
+import 'package:barktest/my_page.dart';
+import 'package:barktest/shop_page.dart';
+import 'package:barktest/contents_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -15,7 +18,13 @@ class FadeThroughPage extends StatefulWidget {
 
 class _FadeThroughPageState extends State<FadeThroughPage> {
   int index = 0;
-  final pages = [FadeOnScroll(), SecondPage()];
+  final pages = [
+    FadeOnScroll(),
+    ShopPage(),
+    ContentsPage(),
+    LikePage(),
+    MyPage()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +44,46 @@ class _FadeThroughPageState extends State<FadeThroughPage> {
           //     child: child),
           child: pages[index]),
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           currentIndex: index,
+          backgroundColor: Color.fromARGB(255, 245, 245, 245),
+          elevation: 0,
+          fixedColor: Colors.black45,
+          selectedFontSize: 10,
+          unselectedFontSize: 10,
+          selectedLabelStyle: TextStyle(fontWeight: FontWeight.w700),
           onTap: (int index) => setState(() => this.index = index),
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.photo), label: 'page1'),
-            BottomNavigationBarItem(icon: Icon(Icons.photo), label: 'page2')
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.black45,
+                ),
+                label: 'HOME'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.search_outlined,
+                  color: Colors.black45,
+                ),
+                label: 'SHOP'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.pending_actions,
+                  color: Colors.black45,
+                ),
+                label: 'CONTENTS'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.favorite_outline_outlined,
+                  color: Colors.black45,
+                ),
+                label: 'LIKE'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person_outline_outlined,
+                  color: Colors.black45,
+                ),
+                label: 'MY'),
           ]),
     );
   }

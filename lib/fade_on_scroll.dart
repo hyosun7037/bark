@@ -2,6 +2,8 @@ import 'package:barktest/controller/appbar_controller.dart';
 import 'package:barktest/item_list.dart';
 import 'package:barktest/sliding_cards_view.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -19,20 +21,17 @@ class FadeOnScroll extends GetView<AppbarController> {
   Widget build(BuildContext context) {
     scroll.addListener(() {
       controller.getColor(scroll.position.pixels);
-      precacheImage(Image.asset('assets/meta.jpg').image, context);
-      precacheImage(Image.asset('assets/test01.jpg').image, context);
-      precacheImage(Image.asset('assets/test02.jpg').image, context);
+      void didChangeDependencies() {
+        precacheImage(Image.asset('assets/meta.jpg').image, context);
+        precacheImage(Image.asset('assets/test01.jpg').image, context);
+        precacheImage(Image.asset('assets/test02.jpg').image, context);
+        precacheImage(Image.asset('assets/test03.jpg').image, context);
+        precacheImage(Image.asset('assets/test04.jpg').image, context);
+      }
     });
-    // 테스트
-    // assetImageList = [
-    //   Image.asset('assets/meta.jpg').image,
-    //   Image.asset('assets/test01.jpg').image,
-    //   Image.asset('assets/test02.jpg').image
-    // ];
     assetImageList = [
-      'assets/meta.jpg',
-      'assets/test01.jpg',
-      'assets/test02.jpg'
+      'assets/test04.jpg',
+      'assets/test05.jpg',
     ];
     return Scaffold(
       body: CustomScrollView(
@@ -80,27 +79,48 @@ class FadeOnScroll extends GetView<AppbarController> {
               floating: false,
               pinned: false,
               flexibleSpace: FlexibleSpaceBar(
-                background: Swiper(
-                  autoplay: true,
-                  autoplayDisableOnInteraction: false,
-                  axisDirection: AxisDirection.right,
-                  itemWidth: MediaQuery.of(context).size.width,
-                  layout: SwiperLayout.STACK,
-                  itemCount: demo.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final image = assetImageList[index];
-                    return Image.asset(
-                      image,
-                      fit: BoxFit.cover,
-                    );
-                    // return SlidingCard(
-                    //   name: '',
-                    //   date: '',
-                    //   image: assetImageList[index],
-                    //   offset: pageOffset,
-                    // );
-                  },
-                ),
+                background: CarouselSlider(
+                    items: [
+                      Image.asset(
+                        'assets/test04.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                      Image.asset(
+                        'assets/test05.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                    options: CarouselOptions(
+                        pauseAutoPlayInFiniteScroll: true,
+                        autoPlayInterval: Duration(seconds: 3),
+                        autoPlayAnimationDuration: Duration(milliseconds: 600),
+                        initialPage: 1,
+                        autoPlay: true,
+                        viewportFraction: 1,
+                        height: 500)),
+                //     Swiper(
+                //   curve: Curves.easeInOut,
+                //   autoplay: true,
+                //   axisDirection: flipAxisDirection(AxisDirection.left),
+                //   itemWidth: MediaQuery.of(context).size.width,
+                //   itemHeight: 600,
+                //   // layout: SwiperLayout.STACK,
+                //   itemCount: assetImageList.length,
+                //   autoplayDisableOnInteraction: false,
+                //   itemBuilder: (context, index) {
+                //     final image = assetImageList[index];
+                //     return Image(
+                //       image: AssetImage(image),
+                //       fit: BoxFit.cover,
+                //     );
+                //     // return SlidingCard(
+                //     //   name: '',
+                //     //   date: '',
+                //     //   image: assetImageList[index],
+                //     //   offset: pageOffset,
+                //     // );
+                //   },
+                // ),
               )
               // FlexibleSpaceBar(
               //     background: PageView.builder(
@@ -122,16 +142,20 @@ class FadeOnScroll extends GetView<AppbarController> {
             child: SafeArea(
               child: Container(
                 padding: EdgeInsets.only(top: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Column(
                   children: [
-                    Text('우먼'),
-                    Text('맨'),
-                    Text('라이프'),
-                    Text('선물'),
-                    Text('베스트'),
-                    Text('추천'),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text('우먼'),
+                        Text('맨'),
+                        Text('라이프'),
+                        Text('선물'),
+                        Text('베스트'),
+                        Text('추천'),
+                      ],
+                    ),
                   ],
                 ),
               ),

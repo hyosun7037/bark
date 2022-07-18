@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   carousel_slider: ^4.1.1
-  flutter_swiper_plus: ^2.0.4
+  # flutter_swiper_plus: ^2.0.4
   animations:
   card_swiper: ^2.0.4
   appbar_animated: ^0.0.3
@@ -74,6 +74,10 @@ flutter:
     - assets/test03.jpg
     - assets/test04.jpg
     - assets/test05.jpg
+    - assets/product01.jpeg
+    - assets/product02.jpeg
+    - assets/product03.jpeg
+    - assets/product04.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

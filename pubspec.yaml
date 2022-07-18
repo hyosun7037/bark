@@ -42,6 +42,7 @@ dependencies:
   appbar_animated: ^0.0.3
   logger: ^1.1.0
   carousel_images: ^1.1.2
+  sticky_headers: ^0.3.0+2
 
 dev_dependencies:
 

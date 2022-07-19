@@ -5,6 +5,7 @@ import 'package:barktest/home/controller/appbar_controller.dart';
 import 'package:barktest/home/controller/home_tab_controller.dart';
 import 'package:carousel_images/carousel_images.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,61 +25,65 @@ class HomePage extends GetView<AppbarController> {
 
   @override
   Widget build(BuildContext context) {
+    // 스크롤
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    final double pinnedHeaderHeight = statusBarHeight + kToolbarHeight;
     scroll.addListener(() {
       controller.getColor(scroll.position.pixels);
     });
     return Scaffold(
       backgroundColor: Colors.white,
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
+      body: ExtendedNestedScrollView(
+        pinnedHeaderSliverHeightBuilder: () {
+          return statusBarHeight;
+        },
+        onlyOneScrollInBody: true,
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                StickyHeader(
-                  header: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.white,
-                    alignment: Alignment.center,
-                    height: 40,
-                    child: TabBar(
-                      indicatorColor: Colors.transparent,
-                      unselectedLabelColor: Colors.black26,
-                      labelPadding: EdgeInsets.zero,
-                      labelColor: Colors.black87,
-                      tabs: tabController.myTabs,
-                      controller: tabController.controller,
-                      labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  content: Container(
-                    padding: EdgeInsets.only(top: 20),
-                    height: MediaQuery.of(context).size.width * 2,
-                    child: TabBarView(
-                      controller: tabController.controller,
-                      children: [
-                        // 상품 리스트 탭
-                        GridView.builder(
-                            itemCount: 4,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2, childAspectRatio: 3 / 5),
-                            itemBuilder: (BuildContext context, int index) {
-                              return Product(
-                                image: item[index],
-                                detail: () => Get.to(itemOnTap[index]),
-                              );
-                            }),
-                        Text('간식 상세'),
-                        Text('장난감 상세'),
-                        Text('산책용품 상세'),
-                        Text('목욕 상세'),
-                      ],
-                    ),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                color: Colors.white,
+                alignment: Alignment.center,
+                height: 40,
+                child: TabBar(
+                  indicatorColor: Colors.transparent,
+                  unselectedLabelColor: Colors.black26,
+                  labelPadding: EdgeInsets.zero,
+                  labelColor: Colors.black87,
+                  tabs: tabController.myTabs,
+                  controller: tabController.controller,
+                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 20),
+                  height: MediaQuery.of(context).size.height,
+                  child: TabBarView(
+                    controller: tabController.controller,
+                    children: [
+                      // 상품 리스트 탭
+                      GridView.builder(
+                          itemCount: 4,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: 3 / 5),
+                          itemBuilder: (BuildContext context, int index) {
+                            return Product(
+                              image: item[index],
+                              detail: () => Get.to(itemOnTap[index]),
+                            );
+                          }),
+                      Text('간식 상세'),
+                      Text('장난감 상세'),
+                      Text('산책용품 상세'),
+                      Text('목욕 상세'),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         controller: scroll,

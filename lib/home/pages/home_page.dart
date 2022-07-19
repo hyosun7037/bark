@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:barktest/detail/pages/detail_page.dart';
 import 'package:barktest/home/controller/appbar_controller.dart';
 import 'package:barktest/home/controller/home_tab_controller.dart';
 import 'package:carousel_images/carousel_images.dart';
@@ -10,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
-class FadeOnScroll extends GetView<AppbarController> {
+class HomePage extends GetView<AppbarController> {
   @override
   final controller = Get.put(AppbarController());
   final tabController = Get.put(HomeTabController());
@@ -56,25 +57,22 @@ class FadeOnScroll extends GetView<AppbarController> {
                     child: TabBarView(
                       controller: tabController.controller,
                       children: [
+                        // 상품 리스트 탭
                         GridView.builder(
                             itemCount: 4,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2, childAspectRatio: 3 / 5),
                             itemBuilder: (BuildContext context, int index) {
-                              return Product(image: item[index]);
+                              return Product(
+                                image: item[index],
+                                detail: () => Get.to(itemOnTap[index]),
+                              );
                             }),
-                        GridView.builder(
-                            itemCount: 4,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2, childAspectRatio: 3 / 5),
-                            itemBuilder: (BuildContext context, int index) {
-                              return Product(image: item[index]);
-                            }),
-                        Product(),
-                        Product(),
-                        Product(),
+                        Text('간식 상세'),
+                        Text('장난감 상세'),
+                        Text('산책용품 상세'),
+                        Text('목욕 상세'),
                       ],
                     ),
                   ),
@@ -161,20 +159,25 @@ class Product extends StatelessWidget {
   const Product({
     Key? key,
     this.image = '',
+    required this.detail,
   }) : super(key: key);
 
   final String image;
+  final Function() detail;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(image), fit: BoxFit.contain)),
-          width: MediaQuery.of(context).size.width * .5,
-          height: MediaQuery.of(context).size.width * .5,
+        GestureDetector(
+          onTap: detail,
+          child: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(image), fit: BoxFit.contain)),
+            width: MediaQuery.of(context).size.width * .5,
+            height: MediaQuery.of(context).size.width * .5,
+          ),
         ),
         // 제목 영역
         Container(
@@ -267,4 +270,11 @@ List<String> item = [
   'assets/product02.jpeg',
   'assets/product03.jpeg',
   'assets/product04.jpeg'
+];
+
+List itemOnTap = [
+  DetailPage(),
+  DetailPage(),
+  DetailPage(),
+  DetailPage(),
 ];

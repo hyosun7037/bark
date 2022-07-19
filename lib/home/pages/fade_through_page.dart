@@ -1,14 +1,13 @@
 import 'package:animations/animations.dart';
-import 'package:barktest/home/pages/fade_on_scroll.dart';
+import 'package:barktest/home/pages/home_page.dart';
 import 'package:barktest/like_page.dart';
 import 'package:barktest/main.dart';
 import 'package:barktest/my_page.dart';
 import 'package:barktest/shop_page.dart';
 import 'package:barktest/contents_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
+// 페이지별 페이드인 전환
 class FadeThroughPage extends StatefulWidget {
   const FadeThroughPage({Key? key}) : super(key: key);
 
@@ -18,13 +17,7 @@ class FadeThroughPage extends StatefulWidget {
 
 class _FadeThroughPageState extends State<FadeThroughPage> {
   int index = 0;
-  final pages = [
-    FadeOnScroll(),
-    ShopPage(),
-    ContentsPage(),
-    LikePage(),
-    MyPage()
-  ];
+  final pages = [HomePage(), ShopPage(), ContentsPage(), LikePage(), MyPage()];
 
   @override
   Widget build(BuildContext context) {

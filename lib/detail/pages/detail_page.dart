@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:barktest/detail/controller/detail_controller.dart';
 import 'package:barktest/widgets/appbar_action.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DetailPage extends StatelessWidget {
-  const DetailPage({Key? key}) : super(key: key);
-  final String dropdownValue = '수량';
+class DetailPage extends GetView<DetailController> {
+  final controller = Get.put(DetailController());
+  DetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +62,9 @@ class DetailPage extends StatelessWidget {
                           BorderRadius.vertical(top: Radius.circular(10))),
                   context: context,
                   builder: (context) => Container(
-                        height: 130,
+                        height: 190,
                         child: Column(
                           children: [
-                            // 드롭다운
-                            // 구매수량 증감
-                            // 상품명
                             Container(
                               padding: EdgeInsets.all(20),
                               child: Row(
@@ -78,28 +76,75 @@ class DetailPage extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         border:
                                             Border.all(color: Colors.black87)),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                            height: 30,
-                                            child: Container(
-                                              child: Icon(Icons.remove),
-                                            )),
-                                        Container(
-                                            alignment: Alignment.center,
-                                            height: 30,
-                                            width: 50,
-                                            child: Container(
-                                              child: Text('1'),
-                                            )),
-                                        Container(
-                                            height: 30,
-                                            child: Container(
-                                              child: Icon(Icons.add),
-                                            )),
-                                      ],
-                                    ),
+                                    child: Obx(() => Row(
+                                          children: [
+                                            // -
+                                            GestureDetector(
+                                              onTap: () =>
+                                                  controller.removeNumber(),
+                                              child: Container(
+                                                  width: 20,
+                                                  height: 30,
+                                                  child: Container(
+                                                    child: Icon(
+                                                      Icons.remove,
+                                                      size: 15,
+                                                    ),
+                                                  )),
+                                            ),
+                                            // 수량
+                                            Container(
+                                                alignment: Alignment.center,
+                                                height: 30,
+                                                width: 50,
+                                                child: Container(
+                                                  child: Text(controller
+                                                      .currentNum
+                                                      .toString()),
+                                                )),
+                                            // +
+                                            GestureDetector(
+                                              onTap: () =>
+                                                  controller.addNumber(),
+                                              child: Container(
+                                                  width: 20,
+                                                  height: 30,
+                                                  child: Container(
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      size: 15,
+                                                    ),
+                                                  )),
+                                            ),
+                                          ],
+                                        )),
                                   )
+                                ],
+                              ),
+                            ),
+                            // 총 상품금액
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(top: 0, left: 20, right: 20),
+                              child: Divider(
+                                thickness: 2,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text('총 상품 금액  '),
+                                  Obx(() => Text(
+                                        '${controller.totalPrice}원',
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700),
+                                      ))
                                 ],
                               ),
                             ),

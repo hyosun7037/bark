@@ -3,8 +3,9 @@ import 'package:barktest/home/pages/home_page.dart';
 import 'package:barktest/like_page.dart';
 import 'package:barktest/main.dart';
 import 'package:barktest/my_page.dart';
-import 'package:barktest/shop_page.dart';
 import 'package:barktest/contents_page.dart';
+import 'package:barktest/shop/pages/shop_page.dart';
+import 'package:barktest/shop/pages/shop_test_page.dart';
 import 'package:flutter/material.dart';
 
 // 페이지별 페이드인 전환

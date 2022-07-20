@@ -44,6 +44,7 @@ dependencies:
   carousel_images: ^1.1.2
   sticky_headers: ^0.3.0+2
   extended_nested_scroll_view: ^5.1.3
+  vertical_tabs_flutter: ^1.0.0
 
 dev_dependencies:
 

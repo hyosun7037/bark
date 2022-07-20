@@ -1,3 +1,5 @@
+import 'package:barktest/home/pages/home_page.dart';
+import 'package:barktest/item_list.dart';
 import 'package:barktest/shop/controller/shop_controller.dart';
 import 'package:barktest/widgets/appbar_action.dart';
 import 'package:barktest/widgets/circle_banner.dart';
@@ -91,9 +93,39 @@ class ShopPage extends GetView<ShopController> {
                     tabs: controller.myTabs,
                     contents: [
                       Container(
+                        padding: EdgeInsets.all(20),
                         color: Colors.white,
-                        height: 100,
-                        child: Text('test'),
+                        height:
+                            MediaQuery.of(context).size.height - kToolbarHeight,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('assets/test01.jpg'),
+                                      fit: BoxFit.cover)),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height -
+                                  (MediaQuery.of(context).padding.top +
+                                      kToolbarHeight +
+                                      185),
+                              child: GridView.count(
+                                crossAxisCount: 2,
+                                childAspectRatio: 3 / 1,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                children: List.generate(7, (index) {
+                                  return Category(category: category[index]);
+                                }),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       Text('test'),
                       Text('test'),
@@ -107,6 +139,29 @@ class ShopPage extends GetView<ShopController> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Category extends StatelessWidget {
+  const Category({
+    Key? key,
+    this.category = '',
+  }) : super(key: key);
+
+  final String category;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width * .45,
+        height: 10,
+        decoration: BoxDecoration(border: Border.all(color: Colors.black45)),
+        child: Text(category),
       ),
     );
   }
